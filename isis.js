@@ -2,7 +2,7 @@
 var is;
 
 (function () {
-    var not, methods, or, and, objectWrap, specialInstanceOf;
+    var not, methods, or, and, objectWrap;
     
     //Internal utility methods
     not = function (value) {
@@ -26,9 +26,6 @@ var is;
     objectWrap = function (value) {
         return value === undefined || value === null ? value : Object(value);
     };
-    specialInstanceOf = function (ctor, value) {
-        return ctor === undefined || ctor === null ? ctor === value : value instanceof ctor;
-    };
 
     methods = {
         not: function (fn) {
@@ -46,7 +43,7 @@ var is;
         if (arguments.length === 1) {
             return _.extend(_.partial(is, fn), methods);    
         }
-        return specialInstanceOf(fn, objectWrap(value)) || (_.isFunction(fn) && fn(value) === true);
+        return objectWrap(value) instanceof fn || fn(value) === true;
     };
     
     _.extend(is, methods);
@@ -69,12 +66,14 @@ assert(_.is(Object)({a: 2}))
 assert(_.is(Object)([1, 2, 3]))
 assert(_.is(Object)(null) === false)
 assert(_.is(Object)(undefined) === false)
-assert(_.is(null)(null))
-assert(_.is(undefined)(undefined))
-assert(_.is(null)({a: 2}) === false)
-assert(_.is(undefined)({a: 2}) === false)
-assert(_.is(null)("") === false)
-assert(_.is(undefined)("") === false)
+assert(_.is(_.isNull)(null))
+assert(_.is(_.isUndefined)(undefined))
+assert(_.is(_.isNull)({a: 2}) === false)
+assert(_.is(_.isUndefined)({a: 2}) === false)
+assert(_.is(_.isNull)("") === false)
+assert(_.is(_.isUndefined)("") === false)
+
+//TODO: asser that not passing a function as the first argument to _.is throws
 
 var Person = function () {};
 var jonh = new Person();
