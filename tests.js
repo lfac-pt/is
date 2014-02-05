@@ -64,25 +64,24 @@ var greater = function (x, y) {return x > y;};
 assert(_.is(greater).than(10)(20));
 assert(_.is(greater).than(10)(5) === false);
 
-//`.map`
+//`.the`
 var property = function (key) {
 	return function (obj) {
 		return obj[key];
 	};
 };
 var isTrue = function (value) { return value === true; };
-//TODO: this `map` is very iffy
-assert(_.is(isTrue).map(property("isVisible"))({isVisible: true, a: 2}));
-assert(_.is(isTrue).map(property("isVisible"))({isVisible: false, a: 2}) === false);
+assert(_.is(isTrue).the(property("isVisible"))({isVisible: true, a: 2}));
+assert(_.is(isTrue).the(property("isVisible"))({isVisible: false, a: 2}) === false);
 
 //Basic chaining
 assert(_.is.not(equal).to("hi")("hi") === false);
 assert(_.is.not(equal).to("hi")("bob"));
-assert(_.is(greater).than(18).map(_.property("age")).and(Object)({age: 19, name: "Bob"}))
+assert(_.is(greater).than(18).the(_.property("age")).and(Object)({age: 19, name: "Bob"}))
 assert(_.is(String).or(Number).and(function (x) { return +x > 20; })("40"))
 assert(_.is(String).or(Number).and(function (x) { return +x > 20; })(30))
-assert(_.is(equal).to(true).map(property("isVisible"))({isVisible: true, a: 2}));
-assert(_.is(equal).to(true).map(property("isVisible"))({isVisible: false, a: 2}) === false);
+assert(_.is(equal).to(true).the(property("isVisible"))({isVisible: true, a: 2}));
+assert(_.is(equal).to(true).the(property("isVisible"))({isVisible: false, a: 2}) === false);
 
 //TODO: test short circuiting
 

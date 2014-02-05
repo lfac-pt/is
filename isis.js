@@ -43,7 +43,7 @@
         to : function (compareToValue) {
             return _.partial(this, _, compareToValue);
         },
-        map : function (mutatorFn) {
+        the : function (mutatorFn) {
             return _.compose(this, mutatorFn);
         },
         is: is
