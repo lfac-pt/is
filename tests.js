@@ -57,7 +57,14 @@ assert(_.is(Object).and(buildMatcher({a: 2}))({a: 1, b: 3}) === false);
 //`.to`
 var equal = _.isEqual;
 assert(_.is(equal).to("hi")("hi"));
-//assert(_.is(equal).to("hi")("bob") === false);
+assert(_.is(equal).to("hi")("bob") === false);
+
+//`.than` - an alias to `.to`
+var greater = function (x, y) {return x > y;};
+assert(_.is(greater).than(10)(20));
+assert(_.is(greater).than(10)(5) === false);
+
+//Basic chaining
 //assert(_.is.not(equal).to("hi")("hi") === false);
 //assert(_.is.not(equal).to("hi")("bob"));
 
