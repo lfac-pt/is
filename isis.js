@@ -2,8 +2,9 @@
 var is;
 
 (function () {
-    var not, methods, or, and;
+    var not, methods, or, and, objectWrap, specialInstanceOf;
     
+    //Internal utility methods
     not = function (value) {
         return !value;
     };
@@ -19,9 +20,16 @@ var is;
     };
     and = function (fn1, fn2) {
         return function () {
-            return fn1.apply(null, arguments) || fn2.apply(null, arguments);
+            return fn1.apply(null, arguments) && fn2.apply(null, arguments);
         };
     };
+    objectWrap = function (value) {
+        return value === undefined || value === null ? value : Object(value);
+    };
+    specialInstanceOf = function (ctor, value) {
+        return ctor === undefined || ctor === null ? ctor === value : value instanceof ctor;
+    };
+
     methods = {
         not: function (fn) {
             return _.compose(not, is(fn)); 
@@ -38,7 +46,7 @@ var is;
         if (arguments.length === 1) {
             return _.extend(_.partial(is, fn), methods);    
         }
-        return Object(value) instanceof fn || fn(value) === true;       
+        return specialInstanceOf(fn, objectWrap(value)) || (_.isFunction(fn) && fn(value) === true);
     };
     
     _.extend(is, methods);
@@ -57,6 +65,16 @@ var assert = function (cond) {
 //Basic type/class checking
 assert(_.is(Number)(2))
 assert(_.is(String)("hi"))
+assert(_.is(Object)({a: 2}))
+assert(_.is(Object)([1, 2, 3]))
+assert(_.is(Object)(null) === false)
+assert(_.is(Object)(undefined) === false)
+assert(_.is(null)(null))
+assert(_.is(undefined)(undefined))
+assert(_.is(null)({a: 2}) === false)
+assert(_.is(undefined)({a: 2}) === false)
+assert(_.is(null)("") === false)
+assert(_.is(undefined)("") === false)
 
 var Person = function () {};
 var jonh = new Person();
@@ -79,7 +97,23 @@ assert(_.is(String).or(Number)("ola"))
 assert(_.is(String).or(Number)({a: 2}) === false)
 
 //`.and`
-assert(_.is(Object).and(_.matches({a: 2})))
+var buildMatcher = function (attrs) {
+    return function (obj) {
+        return _.all(attrs, function (value, key) {
+            return obj[key] === value;
+        });
+    };
+};
+assert(_.is(Object).and(buildMatcher({a: 2}))({a: 2, b: 3}));
+assert(_.is(Object).and(buildMatcher({a: 2}))(null) === false);
+assert(_.is(Object).and(buildMatcher({a: 2}))({a: 1, b: 3}) === false);
+
+//`.to`
+//var equal = _.isEqual;
+//assert(_.is(equal).to("hi")("hi"));
+//assert(_.is(equal).to("hi")("bob") === false);
+//assert(_.is.not(equal).to("hi")("hi") === false);
+//assert(_.is.not(equal).to("hi")("bob"));
 
 //All tests pass!
 console.log("All is good!");
