@@ -5,6 +5,9 @@
     not = function (value) {
         return !value;
     };
+    wrapFn = function (fn) {
+        return _.extend(fn, methods);
+    };
     or = function (fn1, fn2) {
         return function () {
             return fn1.apply(null, arguments) || fn2.apply(null, arguments);
@@ -17,6 +20,14 @@
     };
     objectWrap = function (value) {
         return value === undefined || value === null ? value : Object(value);
+    };
+
+    is = function is(fn, value, compareToValue) {
+        if (arguments.length === 1) {
+            return _.extend(_.partial(is, fn), methods);    
+        }
+        return objectWrap(value) instanceof fn || 
+            (arguments.length === 2 ? fn(value) : fn(value, compareToValue)) === true; //Don't pass unexpected parameters
     };
 
     methods = {
@@ -34,19 +45,17 @@
         },
         map : function (mutatorFn) {
             return _.compose(this, mutatorFn);
-        }
+        },
+        is: is
     };
+
+    _.each(methods, function (method, name) {
+        methods[name] = _.compose(wrapFn, method);
+    })
+
     methods.than = methods.to;
-    
-    is = function is(fn, value, compareToValue) {
-        if (arguments.length === 1) {
-            return _.extend(_.partial(is, fn), methods);    
-        }
-        return objectWrap(value) instanceof fn || 
-            (arguments.length === 2 ? fn(value) : fn(value, compareToValue)) === true; //Don't pass unexpected parameters
-    };
-    
-    _.extend(is, methods);
+
+    is.not = methods.not;
 
     _.mixin({ is: is });
 }());

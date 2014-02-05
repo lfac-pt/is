@@ -76,13 +76,13 @@ assert(_.is(isTrue).map(property("isVisible"))({isVisible: true, a: 2}));
 assert(_.is(isTrue).map(property("isVisible"))({isVisible: false, a: 2}) === false);
 
 //Basic chaining
-//assert(_.is.not(equal).to("hi")("hi") === false);
-//assert(_.is.not(equal).to("hi")("bob"));
-//assert(_.is(Object).map(_.property("age")).is(_.greather).than(18)({age: 18, name: "Bob"}))
-//assert(_.is(String).or(Number).and(function (x) { return +x > 20; })("40"))
-//assert(_.is(String).or(Number).and(function (x) { return +x > 20; })(30))
-//assert(_.is(equal).to(true).map(property("isVisible"))({isVisible: true, a: 2}));
-//assert(_.is(equal).to(true).map(property("isVisible"))({isVisible: false, a: 2}) === false);
+assert(_.is.not(equal).to("hi")("hi") === false);
+assert(_.is.not(equal).to("hi")("bob"));
+assert(_.is(greater).than(18).map(_.property("age")).and(Object)({age: 19, name: "Bob"}))
+assert(_.is(String).or(Number).and(function (x) { return +x > 20; })("40"))
+assert(_.is(String).or(Number).and(function (x) { return +x > 20; })(30))
+assert(_.is(equal).to(true).map(property("isVisible"))({isVisible: true, a: 2}));
+assert(_.is(equal).to(true).map(property("isVisible"))({isVisible: false, a: 2}) === false);
 
 //TODO: test short circuiting
 
