@@ -31,6 +31,9 @@
         },
         to : function (compareToValue) {
             return _.partial(this, _, compareToValue);
+        },
+        map : function (mutatorFn) {
+            return _.compose(this, mutatorFn);
         }
     };
     methods.than = methods.to;
