@@ -1,7 +1,6 @@
 (function () {
     var methods;
     
-    //TODO: find a way to do this more effiently
     function wrapFn(fn) {
         return _.extend(fn, methods);
     };
