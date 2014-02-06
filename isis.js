@@ -38,6 +38,10 @@
         return value === undefined || value === null ? value : Object(value);
     };
     function is(fn, value, compareToValue) {
+        if (_.isFunction(fn) === false) {
+            throw new TypeError("You must pass a function as the first parameter!");
+        }
+
         if (arguments.length === 1) {
             return wrapFn(_.partial(is, fn));    
         }

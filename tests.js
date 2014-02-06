@@ -35,7 +35,7 @@ assert(_.is(defined)(null) === false)
 assert(_.is(defined)(undefined) === false)
 
 //`.not`
-assert(_.not(_.is(Number))("ola"))
+assert(_.not(_.is(Number))("ola")) //Better this than _.is(_.compose(_.is(not), equal)).to(5)(10) // false
 
 //`.or`
 assert(_.is(String).or(Number)(2))
