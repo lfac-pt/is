@@ -1,39 +1,21 @@
 (function () {
-    var is, not, methods, or, and, objectWrap;
+    var methods;
     
-    //Internal utility methods
-    not = function (value) {
-        return !value;
-    };
-    wrapFn = function (fn) {
+    function wrapFn(fn) {
         return _.extend(fn, methods);
     };
-    or = function (fn1, fn2) {
+
+    function or(fn1, fn2) {
         return function () {
             return fn1.apply(null, arguments) || fn2.apply(null, arguments);
         };
     };
-    and = function (fn1, fn2) {
+    function and(fn1, fn2) {
         return function () {
             return fn1.apply(null, arguments) && fn2.apply(null, arguments);
         };
     };
-    objectWrap = function (value) {
-        return value === undefined || value === null ? value : Object(value);
-    };
-
-    is = function is(fn, value, compareToValue) {
-        if (arguments.length === 1) {
-            return _.extend(_.partial(is, fn), methods);    
-        }
-        return objectWrap(value) instanceof fn || 
-            (arguments.length === 2 ? fn(value) : fn(value, compareToValue)) === true; //Don't pass unexpected parameters
-    };
-
     methods = {
-        not: function (fn) {
-            return _.compose(not, is(fn)); 
-        },
         or : function (fn) {
             return or(this, is(fn));
         },
@@ -45,17 +27,33 @@
         },
         the : function (mutatorFn) {
             return _.compose(this, mutatorFn);
-        },
-        is: is
+        }
     };
-
     _.each(methods, function (method, name) {
         methods[name] = _.compose(wrapFn, method);
     })
-
     methods.than = methods.to;
 
-    is.not = methods.not;
+    function objectWrap(value) {
+        return value === undefined || value === null ? value : Object(value);
+    };
+    function is(fn, value, compareToValue) {
+        if (arguments.length === 1) {
+            return wrapFn(_.partial(is, fn));    
+        }
+        return objectWrap(value) instanceof fn || 
+            (arguments.length === 2 ? fn(value) : fn(value, compareToValue)) === true; //Don't pass unexpected parameters
+    };
 
-    _.mixin({ is: is });
+    function not(value) {
+        return !value;
+    };
+    function isnt(fn) {
+        return wrapFn(_.compose(not, is(fn))); 
+    };
+
+    _.mixin({ 
+        is: is,
+        isnt : isnt
+    });
 }());
