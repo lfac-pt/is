@@ -35,7 +35,7 @@ assert(_.is(defined)(null) === false)
 assert(_.is(defined)(undefined) === false)
 
 //`.not`
-assert(_.isnt(Number)("ola"))
+assert(_.not(_.is(Number))("ola"))
 
 //`.or`
 assert(_.is(String).or(Number)(2))
@@ -75,8 +75,8 @@ assert(_.is(isTrue).the(property("isVisible"))({isVisible: true, a: 2}));
 assert(_.is(isTrue).the(property("isVisible"))({isVisible: false, a: 2}) === false);
 
 //Basic chaining
-assert(_.isnt(equal).to("hi")("hi") === false);
-assert(_.isnt(equal).to("hi")("bob"));
+assert(_.is(_.not(equal)).to("hi")("hi") === false);
+assert(_.is(_.not(equal)).to("hi")("bob"));
 assert(_.is(greater).than(18).the(_.property("age")).and(Object)({age: 19, name: "Bob"}))
 assert(_.is(String).or(Number).and(function (x) { return +x > 20; })("40"))
 assert(_.is(String).or(Number).and(function (x) { return +x > 20; })(30))
@@ -86,8 +86,8 @@ assert(_.is(equal).to(true).the(property("isVisible"))({isVisible: false, a: 2})
 //Hardcore chaining
 assert(_.is(equal).to(true).and(equal).to(false)(false) === false);
 assert(_.is(equal).to(true).and(equal).to(false)(true) === false);
-assert(_.isnt(equal).to(true).and(equal).to(false)(false));
-assert(_.is(equal).to(true).and(_.isnt(equal).to(false))(true));
+assert(_.is(_.not(equal)).to(true).and(equal).to(false)(false));
+assert(_.is(equal).to(true).and(_.not(equal)).to(false)(true));
 
 //TODO: test short circuiting
 

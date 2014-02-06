@@ -45,15 +45,12 @@
             (arguments.length === 2 ? fn(value) : fn(value, compareToValue)) === true; //Don't pass unexpected parameters
     };
 
-    function not(value) {
-        return !value;
-    };
-    function isnt(fn) {
-        return wrapFn(_.compose(not, is(fn))); 
-    };
-
     _.mixin({ 
         is: is,
-        isnt : isnt
+        not : function (fn) {
+            return function () {
+                return !fn.apply(this, arguments);
+            };
+        }
     });
 }());
