@@ -1,6 +1,7 @@
 (function () {
     var methods;
     
+    //TODO: find a way to do this more effiently
     function wrapFn(fn) {
         return _.extend(fn, methods);
     };
@@ -34,9 +35,6 @@
     })
     methods.than = methods.to;
 
-    function objectWrap(value) {
-        return value === undefined || value === null ? value : Object(value);
-    };
     function is(fn, value, compareToValue) {
         if (_.isFunction(fn) === false) {
             throw new TypeError("You must pass a function as the first parameter!");
@@ -45,7 +43,8 @@
         if (arguments.length === 1) {
             return wrapFn(_.partial(is, fn));    
         }
-        return objectWrap(value) instanceof fn || 
+
+        return (value === undefined || value === null ? value : Object(value)) instanceof fn || 
             (arguments.length === 2 ? fn(value) : fn(value, compareToValue)) === true; //Don't pass unexpected parameters
     };
 
