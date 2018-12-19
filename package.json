@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Predicate builder for Underscore",
   "main": "index.js",
-  "scripts": {
-    "test": "node tests.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lfac-pt/is.git"
