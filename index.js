@@ -1,4 +1,4 @@
-(function () {
+module.exports.setup = (_) => {
     var methods;
     
     function wrapFn(fn) {
@@ -55,4 +55,4 @@
             };
         }
     });
-}());
+}

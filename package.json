@@ -1,0 +1,22 @@
+{
+  "name": "is",
+  "version": "0.0.0",
+  "description": "Predicate builder for Underscore",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lfac-pt/is.git"
+  },
+  "author": "me@lfac.me",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lfac-pt/is/issues"
+  },
+  "homepage": "https://github.com/lfac-pt/is#readme",
+  "devDependencies": {
+    "underscore": "^1.9.1"
+  }
+}

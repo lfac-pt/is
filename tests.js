@@ -1,3 +1,8 @@
+const _ = require("underscore");
+const is = require("./index");
+
+is.setup(_);
+
 //Tests lib
 var assert = function (cond) {
     if (!cond) {
