@@ -22,6 +22,7 @@ module.exports.setup = (_P) => {
             return argsToArray(arguments)[iterator](fn);
         };
     };
+    c = _P.compose;
 
     _P.unary = function (functionToWrap) {
         return function () {
