@@ -1,4 +1,4 @@
-module.exports.setup = (_P) => {
+module.exports.setup = function (_P) {
     var not, argsToArray, arrayPrototypeSlice, getType,
         applyToAllAssertion, isNoModifier, modifiers, c, eq;
 
