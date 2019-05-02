@@ -1,6 +1,6 @@
 {
   "name": "@lfac/is",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Predicate builder for Underscore",
   "main": "index.js",
   "repository": {
